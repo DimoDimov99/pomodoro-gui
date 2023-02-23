@@ -171,9 +171,7 @@ def count_down(count):
 
 window = Tk()
 window.title("Pomodoro")
-window.iconphoto(False, tkinter.PhotoImage("images/icon.png"))
 window.config(padx=100, pady=50, bg=YELLOW)
-
 
 timer_label = Label(text="Timer", bg=YELLOW, font=(
     FONT_NAME, 50), foreground=GREEN)
