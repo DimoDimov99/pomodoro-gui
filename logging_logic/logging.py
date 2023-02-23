@@ -8,7 +8,7 @@ ROOT_PATH = os.getcwd()
 def return_to_root_dir():
     try:
         os.chdir(ROOT_PATH)
-        print(f"Returned to {ROOT_PATH}")
+        # print(f"Returned to {ROOT_PATH}")
     except OSError as error:
         print(error)
         sys.exit(1)
@@ -29,7 +29,7 @@ def create_folder():
     except OSError as error:
         print(error)
         sys.exit(1)
-    print(f"Current dir: {os.getcwd()}")
+    # print(f"Current dir: {os.getcwd()}")
 
 
 def log_pomodoro_session(message):

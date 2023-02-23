@@ -7,6 +7,7 @@ import math
 from time import strftime
 from datetime import datetime
 from logging_logic import logging
+from helper import utils
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -70,6 +71,7 @@ def reset_timer():
     checkmarks.config(text="")
     start_button.config(state="normal")
     reset_button.config(state="disabled")
+    logging.log_pomodoro_session("Pomodoro session restarted")
 
 # ---------------------------- LOG RESET ------------------------------- #
 
@@ -112,7 +114,7 @@ def start_timer():
 
     if reps % 8 == 0:
         logging.log_pomodoro_session(
-            f"POMODORO SESSION [{pomodoro_reps}] COMPLETED (LONG BREAK)")
+            f"POMODORO SESSION [{pomodoro_reps}] COMPLETED (LONG BREAK {LONG_BREAK_MIN} minutes)")
         pomodoro_reps += 1
         focus_window("on")
         window.bell()
@@ -122,7 +124,7 @@ def start_timer():
                            font=(FONT_NAME, 50), foreground=RED)
     elif reps % 2 == 0:
         logging.log_pomodoro_session(
-            f"POMODORO SESSION [{pomodoro_reps}] COMPLETED (SHORT BREAK)")
+            f"POMODORO SESSION [{pomodoro_reps}] COMPLETED (SHORT BREAK {SHORT_BREAK_MIN} minutes)")
         pomodoro_reps += 1
         focus_window("on")
         window.bell()
@@ -132,7 +134,7 @@ def start_timer():
                            font=(FONT_NAME, 50), foreground=PINK)
     else:
         logging.log_pomodoro_session(
-            f"POMODORO WORK SESSIONS [{pomodoro_reps}] STARTED ({WORK_MIN})")
+            f"POMODORO WORK SESSIONS [{pomodoro_reps}] STARTED (Pomodoro SESSION is: {WORK_MIN} minutes)")
         focus_window("off")
         window.bell()
         # start_working()
@@ -207,4 +209,20 @@ time()
 
 window.resizable(width=False, height=False)
 
-window.mainloop()
+if __name__ == "__main__":
+    if len(sys.argv) == 4:
+        try:
+            WORK_MIN = int(sys.argv[1])
+            SHORT_BREAK_MIN = int(sys.argv[2])
+            LONG_BREAK_MIN = int(sys.argv[3])
+            window.mainloop()
+        except ValueError:
+            print("Please provide int value for arguments!")
+            sys.exit(1)
+    elif len(sys.argv) == 1:
+        window.mainloop()
+    elif len(sys.argv) == 2 and sys.argv[1] == "h" or sys.argv[1] == "help":
+        utils.display_help()
+    else:
+        print("Invalid arguments")
+        sys.exit(1)
